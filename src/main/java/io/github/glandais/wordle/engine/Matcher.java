@@ -1,10 +1,8 @@
 package io.github.glandais.wordle.engine;
 
-import javax.inject.Singleton;
 import java.util.HashSet;
 import java.util.Set;
 
-@Singleton
 public class Matcher {
 
     final Words words;

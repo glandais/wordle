@@ -3,7 +3,6 @@ package io.github.glandais.wordle.engine;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import javax.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +13,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Singleton
 @Getter
 public class Words {
 
@@ -25,9 +23,10 @@ public class Words {
     List<String> playable;
 
     @SneakyThrows
-    public Words() {
-        drawable = readWords("/words-drawable.txt");
-        List<String> extraPlayable = readWords("/words-playable.txt");
+    public Words(Locale locale) {
+        String suffix = locale.name().toLowerCase();
+        drawable = readWords("/words-" + suffix + "-drawable.txt");
+        List<String> extraPlayable = readWords("/words-" + suffix + "-playable.txt");
         Set<String> allPlayable = new TreeSet<>(drawable);
         allPlayable.addAll(extraPlayable);
         playable = new ArrayList<>(allPlayable);

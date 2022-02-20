@@ -1,10 +1,7 @@
 package io.github.glandais.wordle;
 
 import io.github.glandais.wordle.command.Util;
-import io.github.glandais.wordle.engine.Answer;
-import io.github.glandais.wordle.engine.LetterAnswer;
-import io.github.glandais.wordle.engine.Matcher;
-import io.github.glandais.wordle.engine.Words;
+import io.github.glandais.wordle.engine.*;
 import io.github.glandais.wordle.solver.BestWordFinder;
 import lombok.SneakyThrows;
 
@@ -16,7 +13,7 @@ public class CliSolver {
 
     @SneakyThrows
     public static void main(String[] args) {
-        words = new Words();
+        words = new Words(Locale.FR);
         matcher = new Matcher(words);
         bestWordFinder = new BestWordFinder(matcher);
         while (true) {

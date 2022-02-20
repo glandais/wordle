@@ -1,31 +1,26 @@
 package io.github.glandais.wordle.command;
 
-import io.github.glandais.wordle.engine.Answer;
-import io.github.glandais.wordle.engine.Answers;
-import io.github.glandais.wordle.engine.Matcher;
-import io.github.glandais.wordle.engine.Words;
+import io.github.glandais.wordle.engine.*;
 import io.github.glandais.wordle.game.Game;
 import io.github.glandais.wordle.solver.BestWordFinder;
 import picocli.CommandLine;
 
-import javax.inject.Inject;
-
 @CommandLine.Command(name = "self", description = "Plays against himself")
 public class SelfCommand implements Runnable {
 
-    @Inject
-    Words words;
-
-    @Inject
-    Matcher matcher;
+    @CommandLine.Option(names = {"-l", "--locale"}, defaultValue = "FR",
+            description = "Locale for word list")
+    Locale locale = Locale.FR;
 
     @Override
     public void run() {
-        Game game = new Game(words);
+        Words words = new Words(locale);
+        Matcher matcher = new Matcher(words);
+        Game game = new Game(matcher);
         BestWordFinder bestWordFinder = new BestWordFinder(matcher);
 
         boolean solved = false;
-        String bestWord = "RAIES";
+        String bestWord = locale.getStartWord();
         while (!solved) {
             System.out.println(bestWord);
             Answer result = game.tryWord(bestWord);

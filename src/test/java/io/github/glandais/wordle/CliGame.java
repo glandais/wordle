@@ -1,19 +1,18 @@
 package io.github.glandais.wordle;
 
 import io.github.glandais.wordle.command.Util;
-import io.github.glandais.wordle.engine.Answer;
-import io.github.glandais.wordle.engine.Answers;
+import io.github.glandais.wordle.engine.*;
 import io.github.glandais.wordle.game.Game;
-import io.github.glandais.wordle.engine.Words;
 import lombok.SneakyThrows;
 
 public class CliGame {
 
     @SneakyThrows
     public static void main(String[] args) {
-        Words words = new Words();
+        Words words = new Words(Locale.FR);
+        Matcher matcher = new Matcher(words);
         while (true) {
-            Game game = new Game(words);
+            Game game = new Game(matcher);
             System.out.println("Enter try : ");
             boolean solved = false;
             while (!solved) {

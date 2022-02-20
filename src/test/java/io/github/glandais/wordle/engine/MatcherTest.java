@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MatcherTest {
 
-    Words words = new Words();
+    Words words = new Words(Locale.FR);
 
     Matcher matcher = new Matcher(words);
 

@@ -1,22 +1,21 @@
 package io.github.glandais.wordle.command;
 
-import io.github.glandais.wordle.engine.Answer;
-import io.github.glandais.wordle.engine.Answers;
-import io.github.glandais.wordle.engine.Words;
+import io.github.glandais.wordle.engine.*;
 import io.github.glandais.wordle.game.Game;
 import picocli.CommandLine;
-
-import javax.inject.Inject;
 
 @CommandLine.Command(name = "game", description = "Play game")
 public class GameCommand implements Runnable {
 
-    @Inject
-    Words words;
+    @CommandLine.Option(names = {"-l", "--locale"}, defaultValue = "FR",
+            description = "Locale for word list")
+    Locale locale = Locale.FR;
 
     @Override
     public void run() {
-        Game game = new Game(words);
+        Words words = new Words(locale);
+        Matcher matcher = new Matcher(words);
+        Game game = new Game(matcher);
         System.out.println("Enter try : ");
         boolean solved = false;
         while (!solved) {
