@@ -1,4 +1,4 @@
-package io.github.glandais.wordle.game;
+package io.github.glandais.wordle.engine;
 
 public record Answer(
         LetterAnswer l1,

@@ -1,28 +1,38 @@
 package io.github.glandais.wordle.game;
 
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.Matcher;
+import io.github.glandais.wordle.engine.Words;
 
 public class Game {
 
     private final Matcher matcher;
 
-    private final String word;
+    private final String solution;
+
+    private int tries;
 
     public Game(Words words) {
-        this(words, words.getWordList().get(ThreadLocalRandom.current().nextInt(words.getWordList().size())));
+        this(words, words.getRandomDrawable());
     }
 
-    public Game(Words words, String word) {
+    public Game(Words words, String solution) {
         this.matcher = new Matcher(words);
-        this.word = word;
+        this.solution = solution;
+        this.tries = 0;
     }
 
-    public String getWord() {
-        return word;
+    public String getSolution() {
+        return solution;
+    }
+
+    public int getTries() {
+        return tries;
     }
 
     public Answer tryWord(String test) {
-        return matcher.tryWord(word, test);
+        tries++;
+        return matcher.getAnswer(solution, test);
     }
 
 }

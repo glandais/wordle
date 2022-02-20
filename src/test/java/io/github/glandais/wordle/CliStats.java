@@ -1,39 +1,32 @@
 package io.github.glandais.wordle;
 
-import io.github.glandais.wordle.game.*;
+import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.Answers;
+import io.github.glandais.wordle.engine.Matcher;
+import io.github.glandais.wordle.engine.Words;
+import io.github.glandais.wordle.game.Game;
 import io.github.glandais.wordle.solver.BestWordFinder;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class CliStats {
 
     public static void main(String[] args) {
         Words words = new Words();
         Matcher matcher = new Matcher(words);
-        BestWordFinder bestWordFinder = new BestWordFinder();
 
-        long c = words.getWordList().size();
-        long attempts = words.getWordList().parallelStream()
-                .map(word -> {
-                    Game game = new Game(words, word);
-                    Set<String> possible = new HashSet<>(words.getWordSet());
+        long c = words.getDrawable().size();
+        long attempts = words.getDrawable().parallelStream()
+                .map(solution -> {
+                    BestWordFinder bestWordFinder = new BestWordFinder(matcher);
+                    Game game = new Game(words, solution);
                     int attempt = 1;
+                    String bestWord = "RAIES";
                     while (true) {
-                        String bestWord;
-                        if (attempt == 1) {
-                            bestWord = "RAIES";
-                        } else {
-                            bestWord = bestWordFinder.getBestWord2(matcher, possible);
-                        }
                         Answer result = game.tryWord(bestWord);
                         if (result.equals(Answers.OK)) {
-                            System.out.println(word + " " + attempt);
+                            System.out.println(solution + " " + attempt);
                             return attempt;
                         } else {
-                            List<String> matching = matcher.matches(bestWord, result);
-                            possible.removeIf(s -> !matching.contains(s));
+                            bestWord = bestWordFinder.getBestWord(bestWord, result);
                             attempt++;
                         }
                     }

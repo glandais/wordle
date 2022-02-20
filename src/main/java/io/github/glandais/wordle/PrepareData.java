@@ -6,18 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.util.*;
+import java.util.Scanner;
 
 public class PrepareData {
 
     @SneakyThrows
     public static void main(String[] args) {
-        String s = "/ 874";
-        for (int i = 0; i < s.length(); i++) {
-            System.out.print((char) (s.charAt(i) ^ 'u'));
-        }
-        System.out.println();
-
         test();
 /*
         Scanner scanner = new Scanner(new FileInputStream("Lexique383/Lexique383.tsv"));

@@ -1,56 +1,42 @@
 package io.github.glandais.wordle.solver;
 
-import io.github.glandais.wordle.game.Answer;
-import io.github.glandais.wordle.game.Answers;
-import io.github.glandais.wordle.game.LetterAnswer;
-import io.github.glandais.wordle.game.Matcher;
+import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.LetterAnswer;
+import io.github.glandais.wordle.engine.Matcher;
+import io.github.glandais.wordle.engine.Words;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class BestWordFinder {
 
-    public String getBestWord(Matcher matcher, Set<String> possibleWords) {
-        if (possibleWords.size() == 1) {
-            return possibleWords.iterator().next();
-        }
-        int min = Integer.MAX_VALUE;
-        String best = "";
-        int bok = 0;
-        int bnok = 0;
-        for (String proposition : matcher.getWords().getWordSet()) {
-            int ok = 0;
-            int nok = 0;
-            for (String possibleWord : possibleWords) {
-                Answer result = matcher.tryWord(possibleWord, proposition);
-                if (result.equals(Answers.NONE)) {
-                    nok++;
-                } else {
-                    ok++;
-                }
-            }
-            int diff = Math.abs(ok - nok);
-            if (diff < min) {
-                min = diff;
-                best = proposition;
-                bok = ok;
-                bnok = nok;
-                System.out.println(best + " " + bok + " " + bnok);
-            }
-        }
-        System.out.println(best + " " + bok + " " + bnok);
-        return best;
+    private final Matcher matcher;
+    private final Words words;
+    private final Set<String> drawable;
+
+    public BestWordFinder(Matcher matcher) {
+        this.matcher = matcher;
+        this.words = matcher.getWords();
+        this.drawable = new HashSet<>(words.getDrawable());
     }
 
-    public String getBestWord2(Matcher matcher, Set<String> possibleWords) {
-        if (possibleWords.size() == 1) {
-            return possibleWords.iterator().next();
+    public String getBestWord(String input, Answer answer) {
+        if (input != null && answer != null) {
+            // remove invalid words from answer
+            drawable.removeIf(candidate -> {
+                Answer candidateAnswer = matcher.getAnswer(candidate, input);
+                return !candidateAnswer.equals(answer);
+            });
+        }
+        if (drawable.size() == 1) {
+            return drawable.iterator().next();
         }
         int bscore = Integer.MIN_VALUE;
         String best = "";
-        for (String proposition : matcher.getWords().getWordSet()) {
+        for (String proposition : words.getPlayable()) {
             int score = 0;
-            for (String possibleWord : possibleWords) {
-                Answer result = matcher.tryWord(possibleWord, proposition);
+            for (String possibleWord : drawable) {
+                Answer result = matcher.getAnswer(possibleWord, proposition);
                 score = score + getScore(result);
             }
             if (score > bscore) {

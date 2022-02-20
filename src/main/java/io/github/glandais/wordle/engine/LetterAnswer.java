@@ -1,4 +1,4 @@
-package io.github.glandais.wordle.game;
+package io.github.glandais.wordle.engine;
 
 public enum LetterAnswer {
 
@@ -8,7 +8,7 @@ public enum LetterAnswer {
 
     NOPE("X");
 
-    String symbol;
+    final String symbol;
 
     LetterAnswer(String symbol) {
         this.symbol = symbol;

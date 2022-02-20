@@ -1,9 +1,8 @@
 package io.github.glandais.wordle;
 
-import io.github.glandais.wordle.game.Answer;
+import io.github.glandais.wordle.engine.Answer;
 import io.github.glandais.wordle.game.Game;
-import io.github.glandais.wordle.game.LetterAnswer;
-import io.github.glandais.wordle.game.Words;
+import io.github.glandais.wordle.engine.Words;
 import lombok.SneakyThrows;
 
 public class CliGame {

@@ -1,32 +1,25 @@
 package io.github.glandais.wordle;
 
-import io.github.glandais.wordle.game.*;
+import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.Matcher;
+import io.github.glandais.wordle.engine.Words;
+import io.github.glandais.wordle.game.Game;
 import io.github.glandais.wordle.solver.BestWordFinder;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class CliSelf {
 
     public static void main(String[] args) {
         Words words = new Words();
         Matcher matcher = new Matcher(words);
-        BestWordFinder bestWordFinder = new BestWordFinder();
+        BestWordFinder bestWordFinder = new BestWordFinder(matcher);
 
-        while (true) {
-            Game game = new Game(words, "BOBOS");
-            Set<String> possible = new HashSet<>(words.getWordSet());
+//        while (true) {
+            Game game = new Game(words, "MINES");
 
             boolean solved = false;
             int attempt = 1;
+            String bestWord = "RAIES";
             while (!solved) {
-                String bestWord;
-                if (attempt == 1) {
-                    bestWord = "RAIES";
-                } else {
-                    bestWord = bestWordFinder.getBestWord2(matcher, possible);
-                }
                 System.out.println(bestWord);
 
                 Answer result = game.tryWord(bestWord);
@@ -34,13 +27,13 @@ public class CliSelf {
                 if (ok == 5) {
                     solved = true;
                     System.out.println("************************* " + attempt);
+                    bestWordFinder = new BestWordFinder(matcher);
                 } else {
-                    List<String> matching = matcher.matches(bestWord, result);
-                    possible.removeIf(s -> !matching.contains(s));
+                    bestWord = bestWordFinder.getBestWord(bestWord, result);
                     attempt++;
                 }
             }
-        }
+//        }
     }
 
 }

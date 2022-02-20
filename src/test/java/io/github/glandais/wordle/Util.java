@@ -1,7 +1,7 @@
 package io.github.glandais.wordle;
 
-import io.github.glandais.wordle.game.Answer;
-import io.github.glandais.wordle.game.LetterAnswer;
+import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.LetterAnswer;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
