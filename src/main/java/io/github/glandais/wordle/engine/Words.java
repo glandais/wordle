@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Singleton
@@ -25,7 +27,10 @@ public class Words {
     @SneakyThrows
     public Words() {
         drawable = readWords("/words-drawable.txt");
-        playable = readWords("/words-playable.txt");
+        List<String> extraPlayable = readWords("/words-playable.txt");
+        Set<String> allPlayable = new TreeSet<>(drawable);
+        allPlayable.addAll(extraPlayable);
+        playable = new ArrayList<>(allPlayable);
     }
 
     private List<String> readWords(String wordsResource) throws IOException {
