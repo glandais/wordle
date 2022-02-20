@@ -1,5 +1,6 @@
 package io.github.glandais.wordle;
 
+import io.github.glandais.wordle.command.Util;
 import io.github.glandais.wordle.engine.Answer;
 import io.github.glandais.wordle.engine.LetterAnswer;
 import io.github.glandais.wordle.engine.Matcher;

@@ -1,6 +1,8 @@
 package io.github.glandais.wordle;
 
+import io.github.glandais.wordle.command.Util;
 import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.Answers;
 import io.github.glandais.wordle.game.Game;
 import io.github.glandais.wordle.engine.Words;
 import lombok.SneakyThrows;
@@ -17,8 +19,8 @@ public class CliGame {
             while (!solved) {
                 String test = Util.readFiveLetters();
                 Answer result = game.tryWord(test);
-                int ok = Util.printResult(result);
-                if (ok == 5) {
+                Util.printResult(result);
+                if (result.equals(Answers.OK)) {
                     solved = true;
                 }
             }

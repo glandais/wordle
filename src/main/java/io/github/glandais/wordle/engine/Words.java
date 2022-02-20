@@ -3,13 +3,16 @@ package io.github.glandais.wordle.engine;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import javax.inject.Singleton;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Singleton
 @Getter
 public class Words {
 
@@ -21,18 +24,21 @@ public class Words {
 
     @SneakyThrows
     public Words() {
-        drawable = new ArrayList<>();
-        playable = new ArrayList<>();
+        drawable = readWords("/words-drawable.txt");
+        playable = readWords("/words-playable.txt");
+    }
 
-        InputStream is = Words.class.getResourceAsStream("/words.txt");
+    private List<String> readWords(String wordsResource) throws IOException {
+        List<String> words = new ArrayList<>();
+        InputStream is = Words.class.getResourceAsStream(wordsResource);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = br.readLine();
         while (line != null && !line.equals("")) {
-            drawable.add(line);
-            playable.add(line);
+            words.add(line);
             line = br.readLine();
         }
         br.close();
+        return words;
     }
 
     public String getRandomDrawable() {

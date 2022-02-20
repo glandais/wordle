@@ -1,6 +1,8 @@
 package io.github.glandais.wordle;
 
+import io.github.glandais.wordle.command.Util;
 import io.github.glandais.wordle.engine.Answer;
+import io.github.glandais.wordle.engine.Answers;
 import io.github.glandais.wordle.engine.Matcher;
 import io.github.glandais.wordle.engine.Words;
 import io.github.glandais.wordle.game.Game;
@@ -14,7 +16,7 @@ public class CliSelf {
         BestWordFinder bestWordFinder = new BestWordFinder(matcher);
 
 //        while (true) {
-            Game game = new Game(words, "MINES");
+            Game game = new Game(words);
 
             boolean solved = false;
             int attempt = 1;
@@ -23,8 +25,8 @@ public class CliSelf {
                 System.out.println(bestWord);
 
                 Answer result = game.tryWord(bestWord);
-                int ok = Util.printResult(result);
-                if (ok == 5) {
+                Util.printResult(result);
+                if (result.equals(Answers.OK)) {
                     solved = true;
                     System.out.println("************************* " + attempt);
                     bestWordFinder = new BestWordFinder(matcher);

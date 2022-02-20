@@ -1,4 +1,4 @@
-package io.github.glandais.wordle;
+package io.github.glandais.wordle.command;
 
 import io.github.glandais.wordle.engine.Answer;
 import io.github.glandais.wordle.engine.LetterAnswer;
@@ -24,16 +24,11 @@ public class Util {
         return t;
     }
 
-    public static int printResult(Answer result) {
-        int ok = 0;
+    public static void printResult(Answer result) {
         for (LetterAnswer letterAnswer : result.asArray()) {
             System.out.print(letterAnswer.getSymbol());
-            if (letterAnswer == LetterAnswer.OK) {
-                ok++;
-            }
         }
         System.out.println();
-        return ok;
     }
 
 }

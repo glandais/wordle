@@ -1,7 +1,6 @@
 package io.github.glandais.wordle;
 
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -82,11 +81,11 @@ public class PrepareData {
 
         bw.close();
     }
-
+/*
     private static String clean(String token) {
         return StringUtils.stripAccents(token);
     }
-
+*/
     private static boolean isWord(String token) {
         if (token.contains(" ") || token.contains("-") || token.contains("'")) {
             return false;
